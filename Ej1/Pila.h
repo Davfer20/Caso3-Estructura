@@ -1,4 +1,4 @@
-#include "Node.h"
+#include "List.h"
 #include <iostream>
 
 #ifndef PILA
@@ -9,63 +9,34 @@ template <class T>
 class Pila
 {
 private:
-    Node<T> *first;
-    Node<T> *last;
-    Node<T> *errase;
-    int quantity;
+    List<T> *pilaList;
 
 public:
     Pila()
     {
-        this->first = NULL;
-        this->last = NULL;
-        this->errase = NULL;
-        this->quantity = 0;
+        pilaList = NULL;
+        pilaList = new List<T>();
     }
 
-    void addPila(T *pDato)
+    void push(T *pDato)
     {
-        Node<T> *nodePila = new Node<T>(pDato);
-        if (last == NULL)
-        {
-            this->first = nodePila;
-            this->last = nodePila;
-        }
-        else
-        {
-            this->last->setNext(nodePila);
-        }
-        quantity++;
+        pilaList->insert(0, pDato);
     }
 
-    Node<T> *sacarPila()
+    T *pop()
     {
-        if (!empty())
+        T *result = NULL;
+        if (!pilaList->isEmpty())
         {
-            quantity--;
-            Node<T> *actual = this->first;
-            if (actual->getNext() == NULL)
-            {
-                this->first = NULL;
-                this->last = NULL;
-                return actual;
-            }
-            else
-            {
-                while (actual->getNext()->getNext() != NULL)
-                    actual = actual->getNext();
-                this->last = actual->getData();
-
-                this->errase = actual->getNext();
-                actual->getNext() = NULL;
-                return errase;
-            }
+            result = pilaList->find(0);
+            pilaList->remove(0);
         }
+        return result;
     }
 
     bool empty()
     {
-        return !quantity;
+        return pilaList->isEmpty();
     }
 };
 

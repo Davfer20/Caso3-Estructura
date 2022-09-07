@@ -1,5 +1,4 @@
 #include "Node.h"
-
 #ifndef LIST
 
 #define LIST 1
@@ -77,7 +76,6 @@ public:
         return result;
     }
 
-    // es que si el position es mayor a la cantidad, entonces inserto al final
     void insert(int pPosition, T *pData)
     {
 
