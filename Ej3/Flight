@@ -1,0 +1,28 @@
+
+using namespace std;
+
+class Flight
+{
+
+private:
+    time_t flightTime;
+
+public:
+    Flight(int pHour, int pMinutes)
+    {
+        flightTime = time(NULL);
+        tm *currentTime = localtime(&flightTime);
+    }
+
+    char *flightTimeString()
+    {
+        char *result = ctime(&flightTime);
+        return result;
+    }
+
+    int getIntTimeValue()
+    {
+        int result = 0;
+        return result;
+    }
+};
