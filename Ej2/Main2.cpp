@@ -14,6 +14,8 @@ int main()
     newQueue->enque(&datosPila[2]);
     newQueue->enque(&datosPila[3]);
     newQueue->enque(&datosPila[4]);
+    newQueue->enque(&datosPila[3]);
+    // newQueue->enque(&datosPila[3],0);
 
     cout << *newQueue->dequeue() << endl;
     cout << *newQueue->dequeue() << endl;

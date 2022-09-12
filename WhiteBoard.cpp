@@ -3,6 +3,7 @@
 #include <string>
 #include <stdlib.h>
 #include <random>
+#include "../Generic/List.h"
 
 using namespace std;
 
@@ -42,9 +43,14 @@ int randomGeneral(int min, int max)
     std::cout << distr(generator) << '\n';
 }
 
+// int main()
+// {
+//     List<int> *nuevaLista = new List<int>();
+//     int datosPila[] = {2, 4, 7, 5, 6}; // 2,4,7,5,6
 
-int main()
-{
-    //tiempo();
-    return 0;
-}
+//     datosPila->enque(&datosPila[0]);
+//     datosPila->enque(&datosPila[1]);
+//     datosPila->enque(&datosPila[2]);
+//     datosPila->enque(&datosPila[3]);
+//     datosPila->enque(&datosPila[4]);
+// }

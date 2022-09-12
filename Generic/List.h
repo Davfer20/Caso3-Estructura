@@ -1,126 +1,204 @@
 #include "Node.h"
 
-#ifndef LIST 
+#ifndef LIST
 
 #define LIST 1
 
 template <class T>
-class List {
-    private:
-        Node<T> *first;
-        Node<T> *last;
-        int quantity;
-        bool empty;
-        Node<T> *searchPosition = NULL;
-        Node<T> *searchBehind = NULL;
+class List
+{
+private:
+    Node<T> *first;
+    Node<T> *last;
+    int quantity;
+    bool empty;
+    Node<T> *searchPosition = NULL;
+    Node<T> *searchBehind = NULL;
 
-    public:
-        List() {
-            first = NULL;
-            last = NULL;
-            quantity = 0;
-            empty = true;
-        }
+public:
+    List()
+    {
+        first = NULL;
+        last = NULL;
+        quantity = 0;
+        empty = true;
+    }
 
-        void add(T *pData) {
-            Node<T> *newNode = new Node<T>(pData);
+    void enque(T *pData, int pPriority = 0)
+    {
+        Node<T> *newNode = new Node<T>(pData, pPriority);
 
-            if (quantity>0) {
-                this->last->setNext(newNode);
-            } else {
+        if (quantity > 0)
+
+        {
+            if (pPriority < first->getPriority()) // Mas grande que la primera
+            {
+                this->first->setNext(newNode);
+                newNode->setPrevious(first);
                 this->first = newNode;
             }
-            this->last = newNode;
 
-            empty = false;
-            quantity++;
-        };
-
-        void addAtBegining(T *pData) {
-            Node<T> *newNode = new Node<T>(pData);
-
-            if (this->first!=NULL) {
-                newNode->setNext(this->first);
-            } else {
+            else if (pPriority >= this->last->getPriority()) // Mas grande que las previas
+            {
+                newNode->setNext(last);
+                this->last->setPrevious(newNode);
                 this->last = newNode;
             }
+            else
+            {
+                searchPosition = this->first->getPrevious();
+                while (searchPosition != NULL)
+                {
+                    if (searchPosition->getPriority() > pPriority)
+                    {
+                        newNode->setNext(searchPosition->getNext());
+                        newNode->setPrevious(searchPosition);
+                        searchPosition->getNext()->setPrevious(newNode);
+                        searchPosition->setNext(newNode);
+                        break;
+                    }
+                    else
+                    {
+                        searchPosition = searchPosition->getPrevious();
+                    }
+                }
+            }
+        }
+        else
+        {
+            this->last = newNode;
             this->first = newNode;
+        }
+        quantity++;
+    };
+
+    void addAtBegining(T *pData) // Creo que esto hace lo mismo
+    {
+        Node<T> *newNode = new Node<T>(pData);
+
+        if (this->first != NULL)
+        {
+            newNode->setNext(this->first);
+        }
+        else
+        {
+            this->last = newNode;
+        }
+        this->first = newNode;
+
+        quantity++;
+    }
+
+    Node<T> *getFirst()
+    {
+        return this->first;
+    }
+
+    int getSize()
+    {
+        return quantity;
+    }
+
+    bool isEmpty()
+    {
+        return !quantity;
+    }
+
+    T *find(int pPosition)
+    {
+        T *result = NULL;
+        searchPosition = this->first;
+        searchBehind = NULL;
+
+        if (pPosition < getSize())
+        {
+            while (pPosition > 0)
+            {
+                searchBehind = searchPosition;
+                searchPosition = searchPosition->getNext();
+                pPosition--;
+            }
+            result = searchPosition->getData();
+        }
+
+        return result;
+    }
+
+    // es que si el position es mayor a la cantidad, entonces inserto al final
+    void insert(int pPosition, T *pData)
+    {
+        if (pPosition < getSize() && first != NULL)
+        {
+            Node<T> *newNodo = new Node<T>(pData);
+
+            T *result = find(pPosition);
+
+            newNodo->setNext(searchPosition);
+            if (searchBehind != NULL)
+            {
+                searchBehind->setNext(newNodo);
+            }
+            else
+            {
+                this->first = newNodo;
+            }
 
             quantity++;
         }
-
-        Node<T>* getFirst() {
-            return this->first;
+        else
+        {
+            enque(pData);
         }
+    }
 
-        int getSize() {
-            return quantity;
-        }
-
-        bool isEmpty() {
-            return !quantity;
-        }
-
-        T* find(int pPosition) {
-            T* result = NULL;
-            searchPosition = this->first;
-            searchBehind = NULL;
-
-            if (pPosition<getSize()) {
-                while(pPosition>0) {
-                    searchBehind = searchPosition;
-                    searchPosition = searchPosition->getNext();
-                    pPosition--;
-                }
-                result = searchPosition->getData();
+    T *dequeue()
+    {
+        if (!this->isEmpty())
+        {
+            T *result = first->getData();
+            if (this->first != this->last)
+            {
+                this->first = this->first->getPrevious();
+                this->first->getNext->setNext(NULL);
             }
-
+            else
+            {
+                this->first = NULL;
+                this->last = NULL;
+            }
+            this->quantity--;
             return result;
         }
+    }
 
-        // es que si el position es mayor a la cantidad, entonces inserto al final
-        void insert(int pPosition, T *pData) {
-            
-            if (pPosition<getSize() && first!=NULL) {
-                Node<T> *newNodo = new Node<T>(pData);
+    T *remove(int pPosition)
+    {
+        T *result = NULL;
+        if (first != NULL && pPosition < getSize())
+        {
+            Node<T> *search = first;
+            if (pPosition != 0)
+            {
+                result = find(pPosition);
 
-                T* result = find(pPosition);
-                
-                newNodo->setNext(searchPosition);
-                if (searchBehind!=NULL) {
-                    searchBehind->setNext(newNodo);
-                } else {
-                    this->first = newNodo;
+                searchBehind->setNext(searchPosition->getNext());
+
+                if (searchPosition == last)
+                {
+                    last = searchBehind;
                 }
-                
-                quantity++;
-            } else {
-                add(pData);
+                searchPosition->setNext(NULL);
             }
+            else
+            {
+                first = first->getNext();
+                search->setNext(NULL);
+                result = search->getData();
+            }
+            quantity--;
         }
-
-        T* remove(int pPosition) {
-            T* result = NULL;
-            if (first!=NULL && pPosition<getSize()) {
-                Node<T> *search = first;
-                if (pPosition!=0) {
-                    result = find(pPosition);
-
-                    searchBehind->setNext(searchPosition->getNext());
-
-                    if (searchPosition==last) {
-                        last = searchBehind;
-                    }
-                    searchPosition->setNext(NULL);
-                } else {
-                    first = first->getNext();
-                    search->setNext(NULL);
-                    result = search->getData();
-                }
-                quantity--;
-            }
-            return result;
-        };
+        return result;
+    };
 };
 
 #endif

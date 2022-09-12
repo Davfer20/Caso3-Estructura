@@ -54,7 +54,7 @@ void fillFlights(List<Flight> *pLista, int repeticiones, string pStartHour, stri
         int pasajeros = randomGeneral(0, 20);
 
         Flight *avionNuevo = new Flight(hora, minutos, marcaAvion, vuelo, pasajeros);
-        pLista->add(avionNuevo);
+        pLista->enque(avionNuevo, 0);
     }
 }
 
