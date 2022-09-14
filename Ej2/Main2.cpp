@@ -1,4 +1,4 @@
-#include "Stack2.cpp"
+#include "Stack2.h"
 #include <iostream>
 
 using namespace std;
@@ -15,7 +15,6 @@ int main()
     newQueue->enque(&datosPila[3]);
     newQueue->enque(&datosPila[4]);
     newQueue->enque(&datosPila[3]);
-    // newQueue->enque(&datosPila[3],0);
 
     cout << *newQueue->dequeue() << endl;
     cout << *newQueue->dequeue() << endl;

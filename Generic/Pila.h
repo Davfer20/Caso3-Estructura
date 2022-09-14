@@ -38,6 +38,11 @@ public:
     {
         return pilaList->isEmpty();
     }
+
+    char top()
+    {
+        return pilaList->getFirst();
+    }
 };
 
 #endif

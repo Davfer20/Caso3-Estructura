@@ -1,1 +1,1 @@
-0
+ repeticiones y horas limites

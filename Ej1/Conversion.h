@@ -1,4 +1,4 @@
-#include "../Generic/Pila.h"
+#include "../Generic/List.h"
 #include <ctype.h>
 #include <iostream>
 
@@ -15,10 +15,10 @@ public:
     ScanerTipo(string pString)
     {
         this->operacion = pString;
-        infijaList = new List<T>();
+        infijaList = new List<string>();
     }
 
-    string decodeScaner()
+    string decodeScaner() //"(113+5)*2"
     {
         for (int i = 0; i < operacion.size(); i++)
         {
@@ -30,18 +30,34 @@ public:
                 {
                     while (isdigit(operacion[i + 1]) != false)
                     {
-                        suma += operacion[i];
+                        suma += operacion[i + 1];
+
+                        //  Esto es si un numero tiene mas de un caracter
                         i++;
                     }
                 }
-                catch (int suma)
+                catch (string suma)
                 {
                     suma = suma;
                 }
-
-                cout << suma << endl;
+                string *ptrSuma;
+                ptrSuma = &suma;
+                infijaList->enque(ptrSuma, 0);
             }
+            else
+            {
+                string suma(1, operacion[i]);
+                string *ptrSuma;
+                ptrSuma = &suma;
+                infijaList->enque(ptrSuma, 0);
+
+                // Aca puedo ordenarlos o solo imprimirlos
+
+                // cout << operacion[i] << endl;
+            };
+            cout << *infijaList->dequeue() << endl;
         }
+
         return 0;
     }
 };

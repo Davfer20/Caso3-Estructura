@@ -31,10 +31,10 @@ public:
         if (quantity > 0)
 
         {
-            if (pPriority < first->getPriority()) // Mas grande que la primera
+            if (pPriority < this->first->getPriority()) // Mas grande que la primera
             {
                 this->first->setNext(newNode);
-                newNode->setPrevious(first);
+                newNode->setPrevious(this->first);
                 this->first = newNode;
             }
 
@@ -46,6 +46,7 @@ public:
             }
             else
             {
+
                 searchPosition = this->first->getPrevious();
                 while (searchPosition != NULL)
                 {
@@ -66,9 +67,28 @@ public:
         }
         else
         {
+
+            this->first = newNode;
             this->last = newNode;
+        }
+        quantity++;
+    };
+
+    void add(T *pData)
+    {
+        Node<T> *newNode = new Node<T>(pData);
+
+        if (quantity > 0)
+        {
+            this->last->setNext(newNode);
+        }
+        else
+        {
             this->first = newNode;
         }
+        this->last = newNode;
+
+        empty = false;
         quantity++;
     };
 
@@ -110,7 +130,7 @@ public:
         searchPosition = this->first;
         searchBehind = NULL;
 
-        if (pPosition < getSize())
+        if (pPosition <= getSize())
         {
             while (pPosition > 0)
             {
@@ -159,7 +179,7 @@ public:
             if (this->first != this->last)
             {
                 this->first = this->first->getPrevious();
-                this->first->getNext->setNext(NULL);
+                this->first->getNext()->setNext(NULL);
             }
             else
             {
