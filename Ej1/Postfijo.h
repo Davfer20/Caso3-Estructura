@@ -5,6 +5,7 @@
 #ifndef POSTFIJO
 #define POSTFIJO
 
+// Este fue una prueba pero no me sirvio por varias cosas
 using namespace std;
 template <class T>
 class Postfijo
@@ -13,7 +14,7 @@ private:
     bool isOperator(char);
     int precedence(char);
     string operacion;
-    // List<string> *infijaList;
+    Pila<string> *infijaList;
 
 public:
     Postfijo(string pOperacion)
@@ -67,22 +68,22 @@ public:
                 {
                     while (!operadores->empty() && (operador = operadores->top() != '(') && precedence(operacion[i] <= precedence(operador)))
                     {
-                        postfijo += operator;
-                        operadpres.pop();
+                        postfijo += operacion[i];
+                        operadores->pop();
                     }
-                    opeadores.push(opeacion[i]);
+                    operadores->push(opeacion[i]);
                 }
 
                 else if (operacion[i] == '(')
                 {
-                    operadores.push(operacion[i])
+                    operadores->push(operacion[i])
                 }
                 else if (operacion[i] == ')')
                 {
                     while ((operador = operadores->top()) != '(')
                     {
                         postfijo += operador;
-                        operadores.pop();
+                        operadores->pop();
                     }
                     operadores.pop();
                 }

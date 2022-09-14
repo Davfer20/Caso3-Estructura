@@ -2,9 +2,9 @@
 #include <ctype.h>
 #include <iostream>
 
+// Convierte el string y lo mete a una lista de tokens
 using namespace std;
 template <class T>
-
 class ScanerTipo
 {
 private:

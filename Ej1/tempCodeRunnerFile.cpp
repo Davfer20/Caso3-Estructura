@@ -1,1 +1,1 @@
-cout << operacion->decodeScaner() << endl;
+
